@@ -31,27 +31,27 @@ def ask_gpt3_5(question, reference_material):
     # Maximum tokens for the prompt (leaving room for question)
     max_tokens_prompt = 3947
 
-    # Construct the prompt with the question
+    # Constructing the prompt with the question
     prompt_question = f"Question: {question}\nReference Material: "
     prompt_completion = "\nAnswer:"
 
-    # Calculate the remaining tokens for the reference material
+    # Calculating the remaining tokens for the reference material
     remaining_tokens = max_tokens_prompt - len(prompt_question.split()) - len(prompt_completion.split())
 
-    # Truncate the reference material to fit within the token limit
+    # Truncating the reference material to fit within the token limit
     truncated_reference_material = " ".join(reference_material.split()[:remaining_tokens])
 
-    # Construct the full prompt
+    # Constructing the full prompt
     prompt = prompt_question + truncated_reference_material + prompt_completion
 
-    # Send the prompt to GPT-3.5
+    # Sending the prompt to GPT-3.5
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
         max_tokens=150 # Tokens for the completion
     )
 
-    # Extract the answer from the response
+    # Extracting the answer from the response
     answer = response.choices[0].text
 
     return answer
@@ -59,10 +59,10 @@ def ask_gpt3_5(question, reference_material):
 
 
 def ask_question(question, file_name):
-    # Retrieve the reference material from the extracted text of the specified file
+    # Retrieving the reference material from the extracted text of the specified file
     reference_material = pdf_texts[file_name]
 
-    # Call the GPT-3.5 query function with the question and reference material
+    # Calling the GPT-3.5 query function with the question and reference material
     answer = ask_gpt3_5(question, reference_material)
 
     return answer
@@ -90,7 +90,7 @@ def load_from_cache():
     with open(cache_file_path, 'r') as file:
         return json.load(file)
 
-# Check if the cache file exists
+# Checking if the cache file exists
 try:
     pdf_texts = load_from_cache()
     print("Loaded extracted text from cache.")
@@ -100,7 +100,7 @@ except FileNotFoundError:
     print("Extracted text from PDF files and saved to cache.")
 
 
-# Define the actions for the search and ask buttons
+# Defining the actions for the search and ask buttons
 def on_search():
     term = term_entry.get()
     results = search_term(term)
@@ -122,11 +122,11 @@ def on_ask():
     else:
         ask_results_text_widget.insert(tk.END, f"File {file_name} not found in the extracted texts. Please enter a valid file name.")
         
-# Create and configure the main window
+# Creating and configure the main window
 root = tk.Tk()
 root.title("PDF Search and Ask")
 
-# Create the search section
+# Creating the search section
 search_label = tk.Label(root, text="Search for a term:")
 search_label.pack()
 
@@ -139,7 +139,7 @@ search_button.pack()
 search_results_text_widget = tk.Text(root, width=80, height=10, wrap=tk.WORD)
 search_results_text_widget.pack()
 
-# Create the ask section
+# Creating the ask section
 ask_label = tk.Label(root, text="Ask a question about a file:")
 ask_label.pack()
 
