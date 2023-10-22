@@ -5,7 +5,7 @@ import json
 import tkinter as tk
 
 
-openai.api_key = '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'
+openai.api_key = 'please use your own, thank you'
 
 
 def extract_text_from_pdf(pdf_directory):
